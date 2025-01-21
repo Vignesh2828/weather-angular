@@ -30,16 +30,22 @@ export class WeatherComponent implements OnInit {
     })
   }
 
-  sendToApiService(formValues:any) {
+  sendToApiService(formValues: any) {
     this.apiService.getWeather(formValues.location).subscribe(data => {
-     if(!data.success){
-      if(data.error.code === 104){
-        this.apiLimitReached = data.error.info
+      if (data && data.error && data.error.code === 104) {
+        this.apiLimitReached = data.error.info;
+      } else if (data && data.current) {
+        this.weatherData = data;
+      } else {
+        this.weatherData = null;
+        this.apiLimitReached = 'An error occurred. Please try again later.';
       }
-     }
-      this.weatherData = data;
-    })
+    }, (error) => {
+      this.weatherData = null;
+      this.apiLimitReached = 'Unable to fetch weather data. Please check your network connection.';
+    });
   }
+
   togglePaymentMethod(): void {
     this.isPayPalSelected = !this.isPayPalSelected;
   }
