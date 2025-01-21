@@ -2,20 +2,17 @@
     <!-- Search Section -->
     <div class="search-section">
       <h3>Search Weather</h3>
-      <form
-        [formGroup]="weatherSearchForm"
-        (ngSubmit)="sendToApiService(weatherSearchForm.value)"
-      >
+      <form [formGroup]="weatherSearchForm" (ngSubmit)="sendToApiService(weatherSearchForm.value)">
         <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter location"
-            formControlName="location"
-          />
+          <input type="text" class="form-control" placeholder="Enter location" formControlName="location" />
           <button type="submit" class="btn">Search</button>
         </div>
       </form>
+    </div>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner"></div>
     </div>
   
     <!-- Weather Details Section -->
@@ -23,57 +20,72 @@
       <h3>Weather Details</h3>
       <div class="weather-info">
         <div class="weather-icon">
-          <img
-            [src]="weatherData?.current.weather_icons[0]"
-            alt="Weather Icon"
-          />
+          <img [src]="weatherData?.current.weather_icons[0]" alt="Weather Icon" />
         </div>
         <div class="weather-text">
           <p>
-            <span
-              *ngFor="let condition of weatherData?.current.weather_descriptions"
-            >
+            <span *ngFor="let condition of weatherData?.current.weather_descriptions">
               {{ condition }}
             </span>
           </p>
           <p><strong>Temperature:</strong> {{ weatherData?.current.temperature }}°C</p>
-        <p><strong>Feels Like:</strong> {{ weatherData?.current.feelslike }}°C</p>
-        <p><strong>Location:</strong> {{ weatherData?.location.name }}</p>
+          <p><strong>Feels Like:</strong> {{ weatherData?.current.feelslike }}°C</p>
+          <p><strong>Location:</strong> {{ weatherData?.location.name }}</p>
         </div>
       </div>
     </div>
   
     <!-- API Limit Reached Funny Message with UPI QR Code -->
     <div *ngIf="apiLimitReached" class="api-limit-message">
-        <p>Uh-oh! We've reached our weather data limit! 🌧️</p>
-        <p>But don't worry, you can help us keep the forecast going. Your generous donation will help us continue fetching weather updates! 💰</p>
-        <p>Here's a QR code to support our mission and keep the weather app running smoothly! 🚀</p>
-      
-        <!-- Payment Options -->
-        <div class="payment-options">
-          <!-- Default UPI QR -->
-          <div class="upi-qr" *ngIf="!isPayPalSelected">
-            <img src="assets/images/upiQR.png" alt="UPI QR Code" width="200" height="200" />
-            <p>Scan to donate via UPI and help us buy more weather data! 📡</p>
-          </div>
-      
-          <!-- PayPal QR -->
-          <div class="paypal-qr" *ngIf="isPayPalSelected">
-            <img src="assets/images/paypalQR.png" alt="PayPal QR Code" width="200" height="200" />
-            <p>Scan to donate via PayPal and help us keep the weather updates coming! 💳</p>
-          </div>
-      
-          <!-- Switch Payment Methods -->
-          <div class="payment-method-selector">
-            <button (click)="togglePaymentMethod()">Switch to PayPal</button>
-          </div>
+      <p>Uh-oh! We've reached our weather data limit! 🌧️</p>
+      <p>But don't worry, you can help us keep the forecast going. Your generous donation will help us continue fetching weather updates! 💰</p>
+      <p>Here's a QR code to support our mission and keep the weather app running smoothly! 🚀</p>
+  
+      <!-- Payment Options -->
+      <div class="payment-options">
+        <!-- Default UPI QR -->
+        <div class="upi-qr" *ngIf="!isPayPalSelected">
+          <img src="assets/images/upiQR.png" alt="UPI QR Code" width="200" height="200" />
+          <p>Scan to donate via UPI and help us buy more weather data! 📡</p>
+        </div>
+  
+        <!-- PayPal QR -->
+        <div class="paypal-qr" *ngIf="isPayPalSelected">
+          <img src="assets/images/paypalQR.png" alt="PayPal QR Code" width="200" height="200" />
+          <p>Scan to donate via PayPal and help us keep the weather updates coming! 💳</p>
+        </div>
+  
+        <!-- Switch Payment Methods -->
+        <div class="payment-method-selector">
+          <button (click)="togglePaymentMethod()">Switch to PayPal</button>
         </div>
       </div>
-      
-      
+    </div>
   
     <!-- Fallback Message -->
     <ng-template #noData>
       <p class="no-data">No weather data available. Please search for a location.</p>
     </ng-template>
-</div>
+  
+    <!-- Always Visible Donate Option -->
+    <div class="donate-option" (click)="toggleFundPart()">
+      <p class="donate-link">Want to support? Click here to donate! 💰</p>
+    </div>
+  
+    <!-- Fund Part (Initially Hidden) -->
+    <div *ngIf="isFundPartVisible" class="fund-part">
+        <p>Help us keep fetching the latest weather data by donating! 🌟</p>
+        <div class="payment-options">
+          <div class="upi-qr">
+            <img src="assets/images/upiQR.png" alt="UPI QR Code" width="300" height="300" />
+            <p>Scan to donate via UPI! 📡</p>
+          </div>
+          <div class="paypal-qr">
+            <img src="assets/images/paypalQR.png" alt="PayPal QR Code" width="300" height="300" />
+            <p>Scan to donate via PayPal! 💳</p>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+  

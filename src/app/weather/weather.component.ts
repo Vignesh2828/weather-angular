@@ -15,23 +15,26 @@ export class WeatherComponent implements OnInit {
 
   public weatherSearchForm!: FormGroup;
   public weatherData: any;
-
-  public apiLimitReached!: string
+  public apiLimitReached!: string;
   public isPayPalSelected: boolean = false;
+  public isLoading: boolean = false;
+  public isFundPartVisible: boolean = false; // Control visibility of the fund part
 
-  constructor ( 
+  constructor(
     private formBuilder: FormBuilder,
-    private apiService : ApiWeatherService
+    private apiService: ApiWeatherService
   ) {}
 
   ngOnInit(): void {
     this.weatherSearchForm = this.formBuilder.group({
-      location : ['']
-    })
+      location: ['']
+    });
   }
 
   sendToApiService(formValues: any) {
+    this.isLoading = true; // Start loading
     this.apiService.getWeather(formValues.location).subscribe(data => {
+      this.isLoading = false; // Stop loading
       if (data && data.error && data.error.code === 104) {
         this.apiLimitReached = data.error.info;
       } else if (data && data.current) {
@@ -41,6 +44,7 @@ export class WeatherComponent implements OnInit {
         this.apiLimitReached = 'An error occurred. Please try again later.';
       }
     }, (error) => {
+      this.isLoading = false; // Stop loading
       this.weatherData = null;
       this.apiLimitReached = 'Unable to fetch weather data. Please check your network connection.';
     });
@@ -48,5 +52,9 @@ export class WeatherComponent implements OnInit {
 
   togglePaymentMethod(): void {
     this.isPayPalSelected = !this.isPayPalSelected;
+  }
+
+  toggleFundPart(): void {
+    this.isFundPartVisible = !this.isFundPartVisible; 
   }
 }
