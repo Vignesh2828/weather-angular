@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 
 export class ApiWeatherService {
 
-  API_KEY = "814b1cc6f53ac582f374a2e1e342c786"
-  // API_KEY = "ee6aa9ab43cb54a528505cca2d241355"
+  // API_KEY = "814b1cc6f53ac582f374a2e1e342c786"
+  API_KEY = "ee6aa9ab43cb54a528505cca2d241355"
   API_BASE_URL = "https://api.weatherstack.com/current"
 
   constructor(private http: HttpClient) { }
