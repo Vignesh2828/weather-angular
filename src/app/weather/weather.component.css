@@ -220,15 +220,21 @@ button:hover {
   .donate-option {
     position: relative;
     bottom: auto;
-    margin-top: 20px;
+    margin-top: 15px;
     left: 0;
-    transform: none;
-    width: 70%;
-    padding: 15px;
+    width: 40%;
     text-align: center;
-    transform: translateX(12%);
+    transform: translateX(60%);
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .donate-link {
+    font-size: 12px;
+    line-height: 1.2;
   }
 }
+
 
 /* Styles for the fund part that appears when clicked */
 .fund-part {
